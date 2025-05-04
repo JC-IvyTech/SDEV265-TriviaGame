@@ -6,10 +6,14 @@ func _ready() -> void:
 
 # Searches the category scores to see if any have been completed, then calls disable_button to mark it as completed.
 func search_categories():
+	var total_score := 0
 	for cat in Global.category_scores:
 		var cat_score = Global.category_scores[cat]
 		if (cat_score == 10):
+			total_score += 1
 			disable_button(cat)
+			if (total_score == 5):
+				you_win()
 
 # Disables the buttons for completed categories, turning them green to mark them as completed.
 func disable_button(cat):
@@ -24,6 +28,11 @@ func disable_button(cat):
 			$VBoxContainer/HFlowContainer/ArtLit/ArtLitButton.disabled = true
 		"Sports":
 			$VBoxContainer/HFlowContainer/Sports/SportsButton.disabled = true
+
+# Called if all categories are completed. Hides everything else and displays the "You Win!" message.
+func you_win():
+	$VBoxContainer.hide()
+	$WinMessage.show()
 
 # The following functions are signals from the category buttons.
 # They assign the chosen category to a global variable so the main scene knows which category to run.
