@@ -1,0 +1,143 @@
+[gd_scene load_steps=14 format=3 uid="uid://ds00rkw1j68ut"]
+
+[ext_resource type="Script" uid="uid://cxtrjid4n7prw" path="res://title.gd" id="1_3xoar"]
+[ext_resource type="Texture2D" uid="uid://es8xunfugjeo" path="res://assets/button_rectangle_gradient.svg" id="1_kpexm"]
+[ext_resource type="Texture2D" uid="uid://daxehd8ahtjxj" path="res://assets/button_rectangle_depth_border.svg" id="2_3xoar"]
+[ext_resource type="Texture2D" uid="uid://dtj77b30ln75y" path="res://assets/button_rectangle_depth_gloss.svg" id="3_mom7w"]
+[ext_resource type="PackedScene" uid="uid://cyfugulso83tk" path="res://scene_transition_rect.tscn" id="5_mom7w"]
+[ext_resource type="AudioStream" uid="uid://c0xuo5c6ondxm" path="res://assets/sounds/click3.ogg" id="6_7lgly"]
+
+[sub_resource type="SystemFont" id="SystemFont_0824t"]
+font_weight = 500
+
+[sub_resource type="LabelSettings" id="LabelSettings_nuqgq"]
+font = SubResource("SystemFont_0824t")
+font_size = 55
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.298039)
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="SystemFont" id="SystemFont_lx2ly"]
+font_names = PackedStringArray("Droid Sans")
+font_weight = 500
+
+[sub_resource type="LabelSettings" id="LabelSettings_jil77"]
+font = SubResource("SystemFont_lx2ly")
+font_size = 30
+font_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.0588235)
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="Animation" id="Animation_7lgly"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mom7w"]
+resource_name = "fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0824t"]
+_data = {
+&"RESET": SubResource("Animation_7lgly"),
+&"fade": SubResource("Animation_mom7w")
+}
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3xoar")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.65098, 0.858824, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -32.0
+offset_right = 96.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Trivia!"
+label_settings = SubResource("LabelSettings_nuqgq")
+horizontal_alignment = 1
+
+[node name="NewGameButton" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_kpexm")
+texture_pressed = ExtResource("2_3xoar")
+texture_hover = ExtResource("3_mom7w")
+
+[node name="Label" type="Label" parent="VBoxContainer/NewGameButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = -21.0
+offset_right = 39.5
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "New Game"
+label_settings = SubResource("LabelSettings_jil77")
+
+[node name="SceneTransitionRect" parent="." instance=ExtResource("5_mom7w")]
+layout_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0824t")
+}
+autoplay = "fade"
+
+[node name="Click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_7lgly")
+
+[connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

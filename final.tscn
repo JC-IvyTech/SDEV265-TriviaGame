@@ -1,0 +1,164 @@
+[gd_scene load_steps=15 format=3 uid="uid://casrooefdyx6e"]
+
+[ext_resource type="Script" uid="uid://dbwtstjt1ni0l" path="res://final.gd" id="1_bhfh8"]
+[ext_resource type="PackedScene" uid="uid://bq3h4brp1rdro" path="res://ui.tscn" id="2_7678y"]
+[ext_resource type="Texture2D" uid="uid://es8xunfugjeo" path="res://assets/button_rectangle_gradient.svg" id="3_bhfh8"]
+[ext_resource type="PackedScene" uid="uid://cyfugulso83tk" path="res://scene_transition_rect.tscn" id="3_fp1em"]
+[ext_resource type="Texture2D" uid="uid://daxehd8ahtjxj" path="res://assets/button_rectangle_depth_border.svg" id="4_7ijlv"]
+[ext_resource type="Texture2D" uid="uid://dtj77b30ln75y" path="res://assets/button_rectangle_depth_gloss.svg" id="5_awkn3"]
+[ext_resource type="LabelSettings" uid="uid://pp2vmewtv5ni" path="res://answer_button_settings.tres" id="6_iquii"]
+
+[sub_resource type="SystemFont" id="SystemFont_272bh"]
+font_weight = 500
+
+[sub_resource type="LabelSettings" id="LabelSettings_1bvp3"]
+font = SubResource("SystemFont_272bh")
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.298039)
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="SystemFont" id="SystemFont_xethn"]
+font_names = PackedStringArray("Droid Sans")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6nld"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.16, 0.16, 0.16, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color(0, 0, 0, 0.458824)
+shadow_size = 2
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="Animation" id="Animation_5vw27"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CenterContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_272bh"]
+resource_name = "fade"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CenterContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kek77"]
+_data = {
+&"RESET": SubResource("Animation_5vw27"),
+&"fade": SubResource("Animation_272bh")
+}
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bhfh8")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.65098, 0.858824, 1)
+
+[node name="UI" parent="." instance=ExtResource("2_7678y")]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 30
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Question" type="Label" parent="CenterContainer/GridContainer/MarginContainer"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "You Shouldn't See This"
+label_settings = SubResource("LabelSettings_1bvp3")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_xethn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_i6nld")
+
+[node name="SubmitButton" type="TextureButton" parent="CenterContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("3_bhfh8")
+texture_pressed = ExtResource("4_7ijlv")
+texture_hover = ExtResource("5_awkn3")
+
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/SubmitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Submit"
+label_settings = ExtResource("6_iquii")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FeedbackSound" type="AudioStreamPlayer2D" parent="."]
+
+[node name="SceneTransitionRect" parent="." instance=ExtResource("3_fp1em")]
+layout_mode = 1
+
+[node name="UIFade" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kek77")
+}
+autoplay = "fade"
+
+[connection signal="pressed" from="CenterContainer/GridContainer/SubmitButton" to="." method="_on_submit_button_pressed"]

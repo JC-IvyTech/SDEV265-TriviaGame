@@ -1,0 +1,269 @@
+[gd_scene load_steps=14 format=3 uid="uid://deiuxbqiiamw2"]
+
+[ext_resource type="Texture2D" uid="uid://es8xunfugjeo" path="res://assets/button_rectangle_gradient.svg" id="1_4hy44"]
+[ext_resource type="Script" uid="uid://df4jrey40a1e0" path="res://menu.gd" id="1_l48gv"]
+[ext_resource type="Texture2D" uid="uid://daxehd8ahtjxj" path="res://assets/button_rectangle_depth_border.svg" id="2_ytr4m"]
+[ext_resource type="Texture2D" uid="uid://dtj77b30ln75y" path="res://assets/button_rectangle_depth_gloss.svg" id="3_l48gv"]
+[ext_resource type="LabelSettings" uid="uid://pp2vmewtv5ni" path="res://answer_button_settings.tres" id="4_ecwwl"]
+[ext_resource type="Texture2D" uid="uid://be1vyji2dt7rv" path="res://assets/button_rectangle_flat.png" id="6_nrnbx"]
+[ext_resource type="PackedScene" uid="uid://cyfugulso83tk" path="res://scene_transition_rect.tscn" id="7_ecwwl"]
+[ext_resource type="AudioStream" uid="uid://c0xuo5c6ondxm" path="res://assets/sounds/click3.ogg" id="8_kk3ma"]
+
+[sub_resource type="SystemFont" id="SystemFont_0824t"]
+font_weight = 500
+
+[sub_resource type="LabelSettings" id="LabelSettings_kk3ma"]
+font = SubResource("SystemFont_0824t")
+font_size = 24
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.298039)
+shadow_offset = Vector2(2, 3)
+
+[sub_resource type="Animation" id="Animation_kk3ma"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ecwwl"]
+resource_name = "fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kk3ma"]
+_data = {
+&"RESET": SubResource("Animation_kk3ma"),
+&"fade": SubResource("Animation_ecwwl")
+}
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l48gv")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.168627, 0.65098, 0.858824, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -262.0
+offset_top = -197.0
+offset_right = 262.0
+offset_bottom = 197.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="Message" type="Label" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Choose Your Category:"
+label_settings = SubResource("LabelSettings_kk3ma")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+alignment = 1
+
+[node name="History" type="HBoxContainer" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="HistoryButton" type="TextureButton" parent="VBoxContainer/HFlowContainer/History"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_4hy44")
+texture_pressed = ExtResource("2_ytr4m")
+texture_hover = ExtResource("3_l48gv")
+texture_disabled = ExtResource("6_nrnbx")
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer/History/HistoryButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "History"
+label_settings = ExtResource("4_ecwwl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Science" type="HBoxContainer" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ScienceButton" type="TextureButton" parent="VBoxContainer/HFlowContainer/Science"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_4hy44")
+texture_pressed = ExtResource("2_ytr4m")
+texture_hover = ExtResource("3_l48gv")
+texture_disabled = ExtResource("6_nrnbx")
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer/Science/ScienceButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Science"
+label_settings = ExtResource("4_ecwwl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Entertainment" type="HBoxContainer" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="EntertainmentButton" type="TextureButton" parent="VBoxContainer/HFlowContainer/Entertainment"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_4hy44")
+texture_pressed = ExtResource("2_ytr4m")
+texture_hover = ExtResource("3_l48gv")
+texture_disabled = ExtResource("6_nrnbx")
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer/Entertainment/EntertainmentButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Entertainment"
+label_settings = ExtResource("4_ecwwl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArtLit" type="HBoxContainer" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ArtLitButton" type="TextureButton" parent="VBoxContainer/HFlowContainer/ArtLit"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_4hy44")
+texture_pressed = ExtResource("2_ytr4m")
+texture_hover = ExtResource("3_l48gv")
+texture_disabled = ExtResource("6_nrnbx")
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer/ArtLit/ArtLitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Arts & Literature"
+label_settings = ExtResource("4_ecwwl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sports" type="HBoxContainer" parent="VBoxContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="SportsButton" type="TextureButton" parent="VBoxContainer/HFlowContainer/Sports"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_4hy44")
+texture_pressed = ExtResource("2_ytr4m")
+texture_hover = ExtResource("3_l48gv")
+texture_disabled = ExtResource("6_nrnbx")
+
+[node name="Label" type="Label" parent="VBoxContainer/HFlowContainer/Sports/SportsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Sports"
+label_settings = ExtResource("4_ecwwl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 50
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "Answer All 10 Questions in Each Category to Complete It!"
+label_settings = SubResource("LabelSettings_kk3ma")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="SceneTransitionRect" parent="." instance=ExtResource("7_ecwwl")]
+layout_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kk3ma")
+}
+autoplay = "fade"
+
+[node name="Click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_kk3ma")
+
+[connection signal="pressed" from="VBoxContainer/HFlowContainer/History/HistoryButton" to="." method="_on_history_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HFlowContainer/Science/ScienceButton" to="." method="_on_science_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HFlowContainer/Entertainment/EntertainmentButton" to="." method="_on_entertainment_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HFlowContainer/ArtLit/ArtLitButton" to="." method="_on_art_lit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HFlowContainer/Sports/SportsButton" to="." method="_on_sports_button_pressed"]
