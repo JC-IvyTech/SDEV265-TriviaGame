@@ -4,7 +4,8 @@ extends Control
 func _ready() -> void:
 	Global.new_game()
 
-# Calls scene transition to transition to the menu.
+# Plays the click feedback sound when the button is pressed.
+# Then calls scene transition to transition to the menu.
 func _on_new_game_button_pressed() -> void:
 	$Click.play()
 	await $Click.finished

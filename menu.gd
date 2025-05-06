@@ -5,6 +5,7 @@ func _ready() -> void:
 	search_categories()
 
 # Searches the category scores to see if any have been completed, then calls disable_button to mark it as completed.
+# Total score is also counted, so if all categories are completed the you_win() function will be called.
 func search_categories():
 	var total_score := 0
 	for cat in Global.category_scores:

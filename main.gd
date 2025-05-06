@@ -1,17 +1,17 @@
 extends Control
 
-var questionid : int
-var category = Global.category
-var categories = Global.categories
-var category_scores = Global.category_scores
-var database : SQLite
-var catid
-var correct_answer_pos : int
+var questionid : int # the database id of the current question, set in the load_question() function, and used to mark that question as answered in the DB by answer_button()
+var category = Global.category # copying the Global category variable, set by the menu scene.
+var categories = Global.categories # copying the Global variable.
+var category_scores = Global.category_scores # copying the Global variable.
+var database : SQLite # the database
+var catid # the ID of the current category.
+var correct_answer_pos : int # the button assigned to the correct answer.
 var feedback_sounds = {
 	"click": preload("res://assets/sounds/click3.ogg"),
 	"correct": preload("res://assets/sounds/Rise03.mp3"),
 	"wrong": preload("res://assets/sounds/Downer01.mp3")
-}
+} # feedback sounds for button clicks and the correct/incorrect answer sounds.
 
 # Update the score, get the category ID, open the DB, load a question.
 # Repeats after every question as once a question is answered this scene reloads.
@@ -78,7 +78,7 @@ func answer_button(num):
 	await $FeedbackSound.finished
 	if (num == correct_answer_pos):
 		Global.increase_score()
-		var query = "UPDATE questions SET answered = 1 WHERE id = " + str(questionid) + " and category_id = " + str(catid) + ";"
+		var query = "UPDATE questions SET answered = 1 WHERE id = " + str(questionid) + " and category_id = " + str(catid) + ";" # DB query to set a question as answered so it won't be pulled again.
 		database.query(query)
 		$FeedbackSound.stream = feedback_sounds["correct"]
 		$FeedbackSound.play()
